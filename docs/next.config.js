@@ -1,7 +1,7 @@
 import nextra from 'nextra'
 
 const withNextra = nextra({
-  theme: 'nextra-theme-docs'
+  // ...Other nextra options
 })
 
 export default withNextra({
