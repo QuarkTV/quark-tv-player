@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --media-brand: theme('colors.brand');
+  --media-focus-ring: theme('colors.brand');
+  --media-background: theme('colors.background');
+}
+
+body {
+  @apply bg-background text-text;
+}
+
+.nextra-nav-container {
+  @apply bg-surface border-b border-surface/50;
+}
+
+.nextra-nav-container-blur {
+  @apply bg-surface/80 backdrop-blur-sm;
+}
+
+.nextra-sidebar-container,
+.nextra-toc {
+  @apply bg-surface;
+}
+
+.nextra-scrollbar {
+  @apply scrollbar-thin scrollbar-track-surface scrollbar-thumb-brand/50 hover:scrollbar-thumb-brand;
+}
+
+.nextra-code-block {
+  @apply bg-surface;
+}
+
+.nextra-callout {
+  @apply bg-surface border-brand;
+}
+
+.nextra-button {
+  @apply bg-brand hover:bg-brand-dark;
+}
+
+.nextra-button-neutral {
+  @apply bg-surface hover:bg-surface/80;
+}
+
+.nextra-search-input {
+  @apply bg-surface;
+} 

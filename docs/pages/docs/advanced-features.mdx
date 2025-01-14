@@ -1,0 +1,133 @@
+# Advanced Features
+
+import { Callout } from 'nextra/components'
+
+<Callout emoji="⚡">
+  Discover advanced features and customization options to get the most out of QuarkTV Player.
+</Callout>
+
+## Custom Styling
+
+### CSS Variables
+
+QuarkTV Player uses CSS variables for theming. You can override these variables to match your application's design:
+
+```css
+:root {
+  --media-brand: #9147ff;
+  --media-focus-ring: #772ce8;
+  --media-background: #0e0e10;
+  --media-live-indicator-color: #eb0400;
+}
+```
+
+### Streamer Information
+
+Customize the streamer overlay with detailed information:
+
+```tsx
+const streamerInfo = {
+  name: "VanixQC",
+  title: "Live Coding Session",
+  category: "Programming",
+  viewers: 1234,
+  avatarUrl: "https://example.com/avatar.png"
+};
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  streamerInfo={streamerInfo}
+/>
+```
+
+## Event Handling
+
+Listen to player events for custom behaviors:
+
+```tsx
+<QuarkTVPlayer
+  onPlay={() => console.log('Video started playing')}
+  onPause={() => console.log('Video paused')}
+  onError={(error) => console.error('Playback error:', error)}
+/>
+```
+
+## Quality Control
+
+The player automatically manages video quality, but you can customize the available options:
+
+```tsx
+const config = {
+  qualities: [1080, 720, 480, 360],
+  defaultQuality: 720
+};
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  config={config}
+/>
+```
+
+## Error Handling
+
+Implement custom error handling with React Error Boundary:
+
+```tsx
+import { ErrorBoundary } from 'react-error-boundary';
+
+function ErrorFallback({ error }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+    </div>
+  );
+}
+
+<ErrorBoundary FallbackComponent={ErrorFallback}>
+  <QuarkTVPlayer {...props} />
+</ErrorBoundary>
+```
+
+## Performance Optimization
+
+### Lazy Loading
+
+Use dynamic imports for better performance:
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const QuarkTVPlayer = dynamic(
+  () => import('@quarktv/quark-tv-player'),
+  { ssr: false }
+);
+```
+
+### Preload Hints
+
+Add preload hints for faster loading:
+
+```html
+<link 
+  rel="preload" 
+  href="your-video-url/playlist.m3u8" 
+  as="fetch" 
+  crossorigin="anonymous"
+/>
+```
+
+## Mobile Optimization
+
+The player is responsive by default, but you can further optimize for mobile:
+
+```css
+@media (max-width: 640px) {
+  .quark-player {
+    --media-controls-height: 48px;
+    --media-live-button-size: 24px;
+  }
+}
+``` 

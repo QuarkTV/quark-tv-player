@@ -1,0 +1,94 @@
+import { FeatureCard } from '../components/FeatureCard';
+import { ProviderStatus } from '../components/ProviderStatus';
+
+<div className="flex flex-col items-center justify-center min-h-[60vh] py-20 text-center">
+  <div className="w-64 h-24 mb-6 relative">
+    <img 
+      src="https://ik.imagekit.io/creepfilms/quark-tv-logo-white.svg?updatedAt=1736890944138"
+      alt="QuarkTV Player"
+      className="w-full h-full object-contain"
+    />
+  </div>
+  <div className="text-xl text-text/80 max-w-2xl mb-12">
+    A modern React video player built on top of <a href="https://www.vidstack.io" className="text-brand hover:text-brand-dark">Vidstack</a>, optimized for live streaming with a Twitch-inspired design.
+  </div>
+  <div className="flex gap-4">
+    <a href="/docs/installation" className="px-6 py-2 bg-brand hover:bg-brand-dark rounded-lg text-white font-medium transition-colors">
+      Get Started
+    </a>
+    <a href="https://github.com/quarktv/quark-tv-player" className="px-6 py-2 bg-surface hover:bg-surface/80 rounded-lg text-white font-medium transition-colors">
+      GitHub
+    </a>
+  </div>
+</div>
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-20">
+  <FeatureCard
+    icon="🚀"
+    title="Optimized for Streaming"
+    description="Specifically designed for live streaming with native HLS support and low latency."
+  />
+  <FeatureCard
+    icon="🎨"
+    title="Modern UI"
+    description="Modern and responsive user interface inspired by Twitch, with smooth animations and intuitive controls."
+  />
+  <FeatureCard
+    icon="⚡"
+    title="Powered by Vidstack"
+    description="Built on Vidstack's powerful media engine for optimal performance, accessibility, and extensive browser support."
+  />
+  <FeatureCard
+    icon="🛠️"
+    title="Easy to Customize"
+    description="Highly customizable through CSS variables and React props, adaptable to any design."
+  />
+  <FeatureCard
+    icon="📱"
+    title="Responsive"
+    description="Adaptive design that works perfectly on mobile devices, tablets, and desktop."
+  />
+  <FeatureCard
+    icon="🔧"
+    title="Intuitive API"
+    description="Simple and well-documented API that makes integration and customization easy."
+  />
+</div>
+
+<div className="my-20">
+  <h2 className="text-3xl font-bold text-center mb-12">Supported Providers</h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <ProviderStatus
+      name="Bunny.net Stream"
+      status="available"
+      description="Full support for HLS streaming with low latency and global CDN."
+    />
+    <ProviderStatus
+      name="Cloudflare Stream"
+      status="coming-soon"
+      description="Integration with Cloudflare Stream for global distribution."
+      date="Q2 2025"
+    />
+    <ProviderStatus
+      name="AWS MediaLive"
+      status="coming-soon"
+      description="Professional streaming support with AWS MediaLive."
+      date="Q3 2025"
+    />
+  </div>
+</div>
+
+<div className="text-center my-20">
+  <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+  <div className="text-text/80 mb-8">
+    Start using QuarkTV Player in your project in minutes.
+  </div>
+  <div className="flex justify-center gap-4">
+    <a href="/docs/installation" className="px-6 py-2 bg-brand hover:bg-brand-dark rounded-lg text-white font-medium transition-colors">
+      Installation Guide
+    </a>
+    <a href="/docs/examples" className="px-6 py-2 bg-surface hover:bg-surface/80 rounded-lg text-white font-medium transition-colors">
+      View Examples
+    </a>
+  </div>
+</div>

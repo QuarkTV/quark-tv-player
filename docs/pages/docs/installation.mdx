@@ -1,0 +1,71 @@
+# Installation
+
+## Using npm
+
+```bash
+npm install @quarktv/quark-tv-player
+```
+
+## Using yarn
+
+```bash
+yarn add @quarktv/quark-tv-player
+```
+
+## Using pnpm
+
+```bash
+pnpm add @quarktv/quark-tv-player
+```
+
+## Requirements
+
+QuarkTV Player requires the following peer dependencies:
+
+- React 18 or later
+- React DOM 18 or later
+
+## Basic Setup
+
+1. Install the package using your preferred package manager
+2. Import the component and its styles in your application
+
+```jsx
+// In your app entry point (e.g., _app.tsx or App.jsx)
+import '@quarktv/quark-tv-player/dist/styles.css'
+```
+
+3. Initialize the BunnyStream client and use the player component:
+
+```jsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+// Initialize the client
+const client = new BunnyStreamClient({
+  apiKey: 'your-api-key',
+  libraryId: 'your-library-id'
+})
+
+// Use the player component
+export default function VideoPlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      config={client}
+      streamerInfo={{
+        name: "VanixQC",
+        title: "Just Chatting",
+        category: "IRL",
+        viewers: 1234,
+        avatarUrl: "https://example.com/avatar.jpg"
+      }}
+    />
+  )
+}
+```
+
+## Next Steps
+
+- Check out the [Getting Started](/docs/getting-started) guide for more detailed usage instructions
+- See the [API Reference](/docs/api) for all available options
+- View [Examples](/docs/examples) for common use cases 

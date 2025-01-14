@@ -1,15 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  MediaPlayer,
-  MediaProvider,
-  type MediaPlayerInstance,
-} from '@vidstack/react';
-import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
-} from '@vidstack/react/player/layouts/default';
-import '@vidstack/react/player/styles/default/theme.css';
-import '@vidstack/react/player/styles/default/layouts/video.css';
+import { MediaPlayer, MediaPlayerInstance, MediaProvider } from '@vidstack/react';
+import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
 import { BunnyStreamClient, VideoMetadata } from './BunnyStreamClient';
 
 export interface QuarkTVPlayerProps {

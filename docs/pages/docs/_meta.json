@@ -1,0 +1,17 @@
+{
+  "installation": {
+    "title": "Installation"
+  },
+  "getting-started": {
+    "title": "Getting Started"
+  },
+  "advanced-features": {
+    "title": "Advanced Features"
+  },
+  "customization": {
+    "title": "Customization"
+  },
+  "troubleshooting": {
+    "title": "Troubleshooting"
+  }
+} 
