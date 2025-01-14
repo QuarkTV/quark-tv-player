@@ -57,6 +57,7 @@
     "type": "git",
     "url": "git+https://github.com/quarktv/quark-tv-player.git"
   },
+  "homepage": "https://quarktv.github.io/quark-tv-player",
   "author": "QuarkTV",
   "license": "MIT"
 }

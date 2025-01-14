@@ -1,9 +1,14 @@
-const withNextra = require('nextra')({
+import nextra from 'nextra'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+
+const withNextra = nextra({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.jsx'
 })
 
-module.exports = withNextra({
+export default withNextra({
   output: 'export',
   images: {
     unoptimized: true
