@@ -1,14 +1,7 @@
-import createNextra from 'nextra'
+import nextra from 'nextra'
 
-const withNextra = createNextra({
-  // Nextra configuration
-  defaultShowCopyCode: true,
-  flexsearch: {
-    codeblocks: true
-  },
-  // Theme configuration
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.jsx'
+const withNextra = nextra({
+  theme: 'nextra-theme-docs'
 })
 
 export default withNextra({

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-export default {
+const config = {
   logo: <div className="w-32 h-8 relative">
     <img 
       src="https://ik.imagekit.io/creepfilms/quark-tv-logo-white.svg?updatedAt=1736890944138"
@@ -39,8 +39,27 @@ export default {
     titleComponent: ({ title, type }) => <span className="nx-text-sm">{title}</span>,
     defaultMenuCollapseLevel: 2
   },
+  toc: {
+    float: true,
+    backToTop: true,
+    title: "En esta página"
+  },
   navigation: {
     prev: true,
     next: true
-  }
-} 
+  },
+  // Nextra 4.0.0 specific options
+  defaultShowCopyCode: true,
+  search: {
+    placeholder: 'Buscar en la documentación...'
+  },
+  editLink: {
+    text: 'Editar esta página en GitHub'
+  },
+  feedback: {
+    content: '¿Preguntas? Danos tu feedback →'
+  },
+  gitTimestamp: false
+}
+
+export default config 
