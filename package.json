@@ -1,0 +1,60 @@
+{
+  "name": "@quarktv/quark-tv-player",
+  "private": false,
+  "version": "1.1.3",
+  "description": "A modern React video player component for live streaming",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "style": "dist/styles.css",
+  "files": [
+    "dist",
+    "dist/styles.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "react",
+    "video-player",
+    "streaming",
+    "hls",
+    "live-streaming",
+    "vidstack"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsup && node scripts/copy-styles.js",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@vidstack/react": "^1.5.7",
+    "hls.js": "^1.5.19"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "tsup": "^8.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quarktv/quark-tv-player.git"
+  },
+  "author": "QuarkTV",
+  "license": "MIT"
+}

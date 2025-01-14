@@ -1,0 +1,29 @@
+/* Tema por defecto de Vidstack */
+media-player {
+  --media-brand: #9147ff;
+  --media-focus-ring: #9147ff;
+  --media-background: #0e0e10;
+}
+
+.video-wrapper {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Ajustamos el espaciado del LiveButton */
+media-controls-group:has(media-volume-slider) {
+  margin-right: 96px; /* Espacio para el LiveButton */
+}
+
+.live-status media-live-button {
+  background: #ff0000;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-left: 16px; /* Separación adicional del control de volumen */
+} 
