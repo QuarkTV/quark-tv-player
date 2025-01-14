@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/_meta.js"  ],
+, "pages/_meta.js", "pages/_app.mdx"  ],
   "exclude": [
     "node_modules"
   ]

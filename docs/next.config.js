@@ -1,10 +1,11 @@
-import nextra from 'nextra'
+const nextra = require('nextra')
 
 const withNextra = nextra({
-  // ...Other nextra options
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.jsx'
 })
 
-export default withNextra({
+module.exports = withNextra({
   output: 'export',
   images: {
     unoptimized: true
