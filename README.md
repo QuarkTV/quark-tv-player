@@ -8,6 +8,7 @@ A modern and lightweight React video player component optimized for live streami
   
 [![npm version](https://img.shields.io/npm/v/@quarktv/quark-tv-player.svg?style=flat-square)](https://www.npmjs.com/package/@quarktv/quark-tv-player)
 [![npm downloads](https://img.shields.io/npm/dm/@quarktv/quark-tv-player.svg?style=flat-square)](https://www.npmjs.com/package/@quarktv/quark-tv-player)
+[![Deploy Docs](https://github.com/QuarkTV/quark-tv-player/actions/workflows/docs.yml/badge.svg)](https://github.com/QuarkTV/quark-tv-player/actions/workflows/docs.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 </div>
