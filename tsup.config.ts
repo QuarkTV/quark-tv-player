@@ -5,7 +5,16 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   dts: true,
   splitting: false,
-  sourcemap: true,
+  sourcemap: false,
   clean: true,
-  external: ['react', 'react-dom']
+  minify: true,
+  target: 'es5',
+  external: ['react', 'react-dom'],
+  treeshake: true,
+  bundle: true,
+  platform: 'browser',
+  loader: {
+    '.css': 'copy'
+  },
+  noExternal: ['@vidstack/react']
 }) 

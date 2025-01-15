@@ -1,7 +1,7 @@
 {
   "name": "@quarktv/quark-tv-player",
   "private": false,
-  "version": "1.1.6.1",
+  "version": "1.1.6+build.1",
   "description": "A modern React video player component for live streaming.",
   "type": "module",
   "main": "dist/index.js",
@@ -25,7 +25,8 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsup && node scripts/copy-styles.js",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsup && node scripts/copy-styles.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepublishOnly": "npm run build"
@@ -39,7 +40,8 @@
     "hls.js": "^1.5.19"
   },
   "devDependencies": {
-    "@swc/core": "^1.10.7",
+    "@swc/core": "^1.4.8",
+    "@swc/helpers": "^0.5.7",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -49,6 +51,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "rimraf": "^5.0.5",
     "style-loader": "^4.0.0",
     "tsup": "^8.0.1",
     "typescript": "^5.2.2",
