@@ -1,0 +1,186 @@
+---
+title: QuarkTV Player - Modern React Video Player
+---
+
+import { Cards, Card } from '../components'
+
+<div className="flex flex-col items-center justify-center py-10">
+  <div className="w-48 mb-8">
+    <img 
+      src="https://ik.imagekit.io/creepfilms/quark-tv-logo-white.svg?updatedAt=1736890944138"
+      alt="QuarkTV Player"
+      className="w-full"
+    />
+  </div>
+
+  <div className="text-center max-w-2xl mx-auto mb-10">
+    <h1 className="text-4xl font-bold mb-4">
+      A modern and lightweight React video player
+    </h1>
+    <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
+      Optimized for live streaming, built on top of VidStack with a Twitch-like design.
+    </p>
+    <div className="flex justify-center gap-4">
+      <a
+        href="/docs" 
+        className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+      >
+        Get Started
+      </a>
+      <a
+        href="https://github.com/quarktv/quark-tv-player" 
+        target="_blank"
+        className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors"
+      >
+        GitHub
+      </a>
+    </div>
+  </div>
+</div>
+
+## Features
+
+<Cards>
+  <Card
+    icon={<span className="text-2xl">🎯</span>}
+    title="Optimized for Live Streaming"
+    href="/docs/features/streaming"
+  >
+    HLS support, live indicator, automatic quality switching, and low-latency optimizations
+  </Card>
+  <Card
+    icon={<span className="text-2xl">🎨</span>}
+    title="Modern UI"
+    href="/docs/features/ui"
+  >
+    Twitch-inspired design with customizable theme and responsive controls
+  </Card>
+  <Card
+    icon={<span className="text-2xl">📱</span>}
+    title="Fully Responsive"
+    href="/docs/features/responsive"
+  >
+    Works on all screen sizes with touch-friendly controls and adaptive quality
+  </Card>
+  <Card
+    icon={<span className="text-2xl">⚡</span>}
+    title="Performance Focused"
+    href="/docs/features/performance"
+  >
+    Lightweight bundle size with efficient rendering and optimized video delivery
+  </Card>
+</Cards>
+
+## Supported Providers
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
+  <div className="p-6 bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-950 dark:to-teal-950 rounded-xl">
+    <div className="text-4xl mb-2">🟢</div>
+    <div className="text-xl font-bold mb-2">Bunny.net Stream</div>
+    <p className="text-gray-600 dark:text-gray-400">
+      Full HLS support, token authentication, and automatic quality switching
+    </p>
+  </div>
+  <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950 dark:to-amber-950 rounded-xl">
+    <div className="text-4xl mb-2">🟡</div>
+    <div className="text-xl font-bold mb-2">Cloudflare Stream</div>
+    <p className="text-gray-600 dark:text-gray-400">
+      Coming Q2 2025 - Global edge network with adaptive bitrate streaming
+    </p>
+  </div>
+  <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950 dark:to-amber-950 rounded-xl">
+    <div className="text-4xl mb-2">🟡</div>
+    <div className="text-xl font-bold mb-2">AWS MediaLive</div>
+    <p className="text-gray-600 dark:text-gray-400">
+      Coming Q3 2025 - Integration with AWS ecosystem and RTMP ingestion
+    </p>
+  </div>
+</div>
+
+## Quick Start
+
+```bash filename="Terminal"
+npm install @quarktv/quark-tv-player
+```
+
+```jsx filename="App.jsx"
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+import '@quarktv/quark-tv-player/dist/styles.css'
+
+// Initialize the client
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key'
+})
+
+export default function App() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      autoPlay
+      onError={(error) => console.error('Video error:', error)}
+      onMetadataLoad={(metadata) => console.log('Video metadata:', metadata)}
+    />
+  )
+}
+```
+
+## Why QuarkTV Player?
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <div className="space-y-4">
+    <h3 className="text-xl font-bold">🎯 Live Streaming Focus</h3>
+    <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+      <li>• HLS support out of the box</li>
+      <li>• Live indicator with animation</li>
+      <li>• Automatic quality switching</li>
+      <li>• Low-latency optimizations</li>
+    </ul>
+  </div>
+  <div className="space-y-4">
+    <h3 className="text-xl font-bold">🎨 Modern Design</h3>
+    <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+      <li>• Twitch-inspired interface</li>
+      <li>• Customizable theme</li>
+      <li>• Responsive controls</li>
+      <li>• Clean and minimal UI</li>
+    </ul>
+  </div>
+  <div className="space-y-4">
+    <h3 className="text-xl font-bold">⚡ Performance</h3>
+    <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+      <li>• Lightweight bundle size</li>
+      <li>• Efficient rendering</li>
+      <li>• Optimized video delivery</li>
+      <li>• Minimal dependencies</li>
+    </ul>
+  </div>
+  <div className="space-y-4">
+    <h3 className="text-xl font-bold">🛠️ Developer Experience</h3>
+    <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+      <li>• TypeScript support</li>
+      <li>• Comprehensive docs</li>
+      <li>• Easy integration</li>
+      <li>• Active development</li>
+    </ul>
+  </div>
+</div>
+
+<div className="text-center mt-16">
+  <h2 className="text-3xl font-bold mb-8">Ready to Start?</h2>
+  <div className="flex gap-4 justify-center">
+    <a
+      href="/docs/getting-started"
+      className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+    >
+      Get Started →
+    </a>
+    <a
+      href="https://github.com/quarktv/quark-tv-player"
+      className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
+    >
+      View on GitHub
+    </a>
+  </div>
+</div> 

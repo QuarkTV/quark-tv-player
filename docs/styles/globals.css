@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-text;
+  }
+}
+
+/* Nextra theme customization */
+.nextra-nav-container {
+  @apply bg-surface border-b border-surface-100;
+}
+
+.nextra-nav-container-blur {
+  @apply bg-surface/80 backdrop-blur-sm;
+}
+
+.nextra-sidebar-container,
+.nextra-toc {
+  @apply bg-surface;
+}
+
+.nextra-scrollbar {
+  @apply scrollbar-thin scrollbar-track-surface scrollbar-thumb-brand/50 hover:scrollbar-thumb-brand;
+}
+
+.nextra-code-block {
+  @apply bg-surface;
+}
+
+.nextra-breadcrumb,
+.nextra-callout,
+.nextra-cards,
+.nextra-card,
+.nextra-steps {
+  @apply text-text;
+}
+
+.nextra-button-neutral {
+  @apply bg-surface hover:bg-surface-50;
+}
+
+.nextra-search-input {
+  @apply bg-surface;
+}
+
+.nextra-sidebar-container .nextra-scrollbar {
+  @apply bg-surface;
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+.nextra-toc .nextra-scrollbar {
+  mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+}
+
+/* Custom components */
+.prose {
+  @apply text-text;
+}
+
+.prose code {
+  @apply text-brand-400;
+}
+
+.prose pre {
+  @apply bg-surface;
+}
+
+.prose a {
+  @apply text-brand hover:text-brand-400;
+}
+
+.prose strong {
+  @apply text-text;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-text;
+}
+
+/* Code syntax highlighting */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  @apply text-surface-300;
+}
+
+.token.punctuation {
+  @apply text-surface-400;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  @apply text-brand-400;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  @apply text-brand-300;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  @apply text-surface-400;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  @apply text-brand;
+}
+
+.token.function,
+.token.class-name {
+  @apply text-brand-200;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  @apply text-brand-300;
+} 
