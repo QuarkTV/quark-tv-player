@@ -1,0 +1,376 @@
+# Advanced Usage
+
+This guide covers advanced features and usage patterns of the QuarkTV Player.
+
+## Advanced Configuration
+
+### Buffer Management
+
+Control the video buffer behavior:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  bufferDuration={30} // Buffer duration in seconds
+  liveEdgeOffset={10} // Live edge offset in seconds for live streams
+/>
+```
+
+### Quality Control
+
+Fine-tune quality selection:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  defaultQuality="720p"
+  onQualityChange={(quality) => {
+    analytics.track('Quality Change', { quality })
+  }}
+  onMetadataLoad={(metadata) => {
+    // Automatically select highest quality for high-end devices
+    if (metadata.qualities.includes('1080p') && isHighEndDevice()) {
+      player.setQuality('1080p')
+    }
+  }}
+/>
+```
+
+### Custom Controls
+
+Create fully custom controls:
+
+```tsx
+function CustomControls() {
+  const {
+    play,
+    pause,
+    setVolume,
+    setQuality,
+    toggleFullscreen,
+    currentTime,
+    duration,
+    volume,
+    qualities,
+    currentQuality
+  } = usePlayerContext()
+
+  return (
+    <div className="custom-controls">
+      <PlaybackControls
+        onPlay={play}
+        onPause={pause}
+      />
+      <VolumeSlider
+        value={volume}
+        onChange={setVolume}
+      />
+      <Timeline
+        currentTime={currentTime}
+        duration={duration}
+      />
+      <QualitySelector
+        qualities={qualities}
+        currentQuality={currentQuality}
+        onChange={setQuality}
+      />
+      <FullscreenButton
+        onClick={toggleFullscreen}
+      />
+    </div>
+  )
+}
+```
+
+## Advanced Features
+
+### Picture-in-Picture
+
+Enable and control picture-in-picture mode:
+
+```tsx
+function PlayerWithPIP() {
+  const [isPiP, setIsPiP] = useState(false)
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      pip={true}
+      onPiPChange={(enabled) => {
+        setIsPiP(enabled)
+        analytics.track('PiP Mode', { enabled })
+      }}
+    />
+  )
+}
+```
+
+### Keyboard Shortcuts
+
+Customize keyboard controls:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  keyboardShortcuts={true}
+  hotkeys={{
+    togglePlay: 'space',
+    toggleMute: 'm',
+    toggleFullscreen: 'f',
+    seekForward: 'right',
+    seekBackward: 'left',
+    volumeUp: 'up',
+    volumeDown: 'down'
+  }}
+/>
+```
+
+### Analytics Integration
+
+Track player events:
+
+```tsx
+function PlayerWithAnalytics() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      onPlay={() => analytics.track('Video Play')}
+      onPause={() => analytics.track('Video Pause')}
+      onEnded={() => analytics.track('Video Complete')}
+      onQualityChange={(quality) => {
+        analytics.track('Quality Change', { quality })
+      }}
+      onError={(error) => {
+        analytics.track('Video Error', { error: error.message })
+      }}
+      onTimeUpdate={(time) => {
+        // Track progress every 25%
+        const progress = (time / duration) * 100
+        if (progress % 25 === 0) {
+          analytics.track('Video Progress', { progress })
+        }
+      }}
+    />
+  )
+}
+```
+
+### Error Recovery
+
+Implement advanced error handling:
+
+```tsx
+function PlayerWithErrorRecovery() {
+  const [retryCount, setRetryCount] = useState(0)
+  const maxRetries = 3
+
+  const handleError = async (error) => {
+    console.error('Playback error:', error)
+
+    if (retryCount < maxRetries) {
+      setRetryCount(prev => prev + 1)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Attempt to reload the player
+      player.reload()
+    } else {
+      // Show error UI after max retries
+      showErrorMessage('Unable to play video. Please try again later.')
+    }
+  }
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      onError={handleError}
+    />
+  )
+}
+```
+
+### Dynamic Stream Quality
+
+Implement adaptive quality selection:
+
+```tsx
+function AdaptivePlayer() {
+  const handleMetadataLoad = (metadata) => {
+    const { qualities, bitrate } = metadata
+    const networkSpeed = navigator.connection?.downlink || 10 // Mbps
+
+    // Select quality based on network speed
+    if (networkSpeed > 10 && qualities.includes('1080p')) {
+      return '1080p'
+    } else if (networkSpeed > 5 && qualities.includes('720p')) {
+      return '720p'
+    } else {
+      return '480p'
+    }
+  }
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      onMetadataLoad={handleMetadataLoad}
+    />
+  )
+}
+```
+
+## Advanced Integration
+
+### State Management
+
+Integrate with external state management:
+
+```tsx
+import { create } from 'zustand'
+
+const usePlayerStore = create((set) => ({
+  isPlaying: false,
+  currentTime: 0,
+  volume: 1,
+  setPlaying: (isPlaying) => set({ isPlaying }),
+  setCurrentTime: (currentTime) => set({ currentTime }),
+  setVolume: (volume) => set({ volume })
+}))
+
+function PlayerWithState() {
+  const { setPlaying, setCurrentTime, setVolume } = usePlayerStore()
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      onPlay={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onTimeUpdate={setCurrentTime}
+      onVolumeChange={setVolume}
+    />
+  )
+}
+```
+
+### Multiple Players
+
+Manage multiple synchronized players:
+
+```tsx
+function MultiViewPlayer() {
+  const [activePlayer, setActivePlayer] = useState(null)
+  const players = useRef([])
+
+  const handlePlay = (index) => {
+    // Pause all other players when one starts playing
+    players.current.forEach((player, i) => {
+      if (i !== index) player.pause()
+    })
+    setActivePlayer(index)
+  }
+
+  return (
+    <div className="multi-view">
+      {videos.map((video, index) => (
+        <QuarkTVPlayer
+          key={video.id}
+          videoId={video.id}
+          client={client}
+          ref={el => players.current[index] = el}
+          onPlay={() => handlePlay(index)}
+          className={activePlayer === index ? 'active' : ''}
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+## Performance Optimization
+
+### Lazy Loading
+
+Implement lazy loading for better performance:
+
+```tsx
+const LazyPlayer = lazy(() => import('./Player'))
+
+function App() {
+  return (
+    <Suspense fallback={<PlayerPlaceholder />}>
+      <LazyPlayer
+        videoId="your-video-id"
+        client={client}
+      />
+    </Suspense>
+  )
+}
+```
+
+### Memory Management
+
+Clean up resources properly:
+
+```tsx
+function PlayerWithCleanup() {
+  useEffect(() => {
+    return () => {
+      // Clean up resources when component unmounts
+      player.dispose()
+    }
+  }, [])
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+## Testing
+
+### Unit Testing
+
+Example of unit testing the player:
+
+```tsx
+import { render, fireEvent, waitFor } from '@testing-library/react'
+
+describe('QuarkTVPlayer', () => {
+  it('should handle play/pause correctly', async () => {
+    const { getByRole } = render(
+      <QuarkTVPlayer
+        videoId="test-video"
+        client={mockClient}
+      />
+    )
+
+    const playButton = getByRole('button', { name: /play/i })
+    fireEvent.click(playButton)
+
+    await waitFor(() => {
+      expect(getByRole('button', { name: /pause/i })).toBeInTheDocument()
+    })
+  })
+})
+```
+
+### Integration Testing
+
+Example of integration testing:
+
+```tsx
+import { test, expect } from '@playwright/test'
+
+test('player should play video', async ({ page }) => {
+  await page.goto('/video/test')
+  await page.click('[data-testid="play-button"]')
+  await expect(page.locator('.video-playing')).toBeVisible()
+}) 

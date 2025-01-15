@@ -1,0 +1,299 @@
+# Bunny Stream Integration
+
+QuarkTV Player provides first-class support for [Bunny Stream](https://bunny.net/stream/), offering a seamless integration with their streaming service.
+
+## Setup
+
+### 1. Get Your Credentials
+
+First, you'll need to get your credentials from the Bunny Stream dashboard:
+
+1. Go to your [Bunny Stream Dashboard](https://panel.bunny.net/stream)
+2. Create or select a library
+3. Note down your:
+   - Library ID
+   - API Key
+
+### 2. Initialize the Client
+
+```tsx
+import { BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key'
+})
+```
+
+## Configuration Options
+
+The `BunnyStreamClient` accepts the following options:
+
+```typescript
+interface BunnyStreamConfig {
+  libraryId: string;      // Your Bunny Stream library ID
+  apiKey: string;         // Your API key
+  baseUrl?: string;       // Custom API endpoint (optional)
+  cdnHostname?: string;   // Custom CDN hostname (optional)
+  tokenAuthKey?: string;  // Custom token for authentication (optional)
+}
+```
+
+## Features
+
+### Automatic Quality Switching
+
+Bunny Stream provides adaptive bitrate streaming out of the box. The player will automatically switch between qualities based on the viewer's network conditions.
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  defaultQuality="auto" // Enable automatic quality switching
+/>
+```
+
+### Token Authentication
+
+For secure playback, you can enable token authentication:
+
+```tsx
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key',
+  tokenAuthKey: 'your-token-auth-key'
+})
+```
+
+### Custom CDN
+
+If you're using a custom CDN hostname:
+
+```tsx
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key',
+  cdnHostname: 'stream.yourdomain.com'
+})
+```
+
+## API Methods
+
+The `BunnyStreamClient` provides several methods for interacting with the Bunny Stream API:
+
+### Get Video Details
+
+```tsx
+const videoDetails = await client.getVideo('video-id')
+console.log(videoDetails)
+// {
+//   guid: "string",
+//   title: "string",
+//   dateUploaded: "string",
+//   views: 0,
+//   isPublic: true,
+//   length: 0,
+//   status: 0,
+//   thumbnailUrl: "string",
+//   resolutions: ["720p", "1080p"],
+//   encodeProgress: 100,
+//   storageSize: 0,
+//   captions: []
+// }
+```
+
+### Get Playback URL
+
+```tsx
+const playbackUrl = await client.getPlayUrl('video-id')
+console.log(playbackUrl)
+// {
+//   url: "https://video.bunnycdn.com/play/...",
+//   token: "jwt-token",
+//   expiresAt: "timestamp"
+// }
+```
+
+### Get HLS Stream URL
+
+```tsx
+const hlsUrl = await client.getHLSStreamUrl('video-id')
+console.log(hlsUrl)
+// "https://video.bunnycdn.com/play/.../playlist.m3u8"
+```
+
+### Get Thumbnail URL
+
+```tsx
+const thumbnailUrl = client.getThumbnailUrl('video-id', 30) // 30 seconds timestamp
+console.log(thumbnailUrl)
+// "https://video.bunnycdn.com/thumbnail/..."
+```
+
+## Error Handling
+
+The client includes comprehensive error handling:
+
+```tsx
+try {
+  const video = await client.getVideo('video-id')
+} catch (error) {
+  if (error.code === 'VIDEO_NOT_FOUND') {
+    console.error('Video not found')
+  } else if (error.code === 'UNAUTHORIZED') {
+    console.error('Invalid API key')
+  } else {
+    console.error('Unknown error:', error)
+  }
+}
+```
+
+## Best Practices
+
+1. **API Key Security**
+   - Never expose your API key in client-side code
+   - Use environment variables
+   - Consider implementing a proxy service
+
+```tsx
+// .env
+NEXT_PUBLIC_BUNNY_LIBRARY_ID=your-library-id
+BUNNY_API_KEY=your-api-key
+
+// component
+const client = new BunnyStreamClient({
+  libraryId: process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID,
+  apiKey: process.env.BUNNY_API_KEY // Only use in server-side code
+})
+```
+
+2. **Error Handling**
+   - Always implement error handling
+   - Show user-friendly error messages
+   - Log errors for debugging
+
+```tsx
+<QuarkTVPlayer
+  videoId="video-id"
+  client={client}
+  onError={(error) => {
+    // Log error
+    console.error('Playback error:', error)
+    
+    // Show user-friendly message
+    toast.error('Unable to play video. Please try again later.')
+    
+    // Track error
+    analytics.track('Video Error', { error })
+  }}
+/>
+```
+
+3. **Performance**
+   - Initialize the client once and reuse it
+   - Use automatic quality switching
+   - Implement proper loading states
+
+```tsx
+// Bad: Creating new client for each component
+function BadExample() {
+  const client = new BunnyStreamClient({ ... }) // Don't do this
+  return <QuarkTVPlayer client={client} />
+}
+
+// Good: Reuse client instance
+const client = new BunnyStreamClient({ ... })
+function GoodExample() {
+  return <QuarkTVPlayer client={client} />
+}
+```
+
+## Examples
+
+### Basic Implementation
+
+```tsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID,
+  apiKey: process.env.BUNNY_API_KEY
+})
+
+export default function VideoPlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      autoPlay
+      onError={(error) => console.error('Video error:', error)}
+      onMetadataLoad={(metadata) => {
+        console.log('Available qualities:', metadata.qualities)
+      }}
+    />
+  )
+}
+```
+
+### With Custom CDN and Token Auth
+
+```tsx
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key',
+  cdnHostname: 'stream.yourdomain.com',
+  tokenAuthKey: 'your-token-auth-key'
+})
+
+function SecurePlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      defaultQuality="720p"
+      bufferDuration={30}
+    />
+  )
+}
+```
+
+## Troubleshooting
+
+Common issues and their solutions:
+
+### 1. Video Not Playing
+
+```typescript
+// Check if video exists and is ready
+const video = await client.getVideo('video-id')
+if (video.status !== 4) { // 4 = Encoded and ready
+  console.log('Video is not ready:', video.status)
+}
+```
+
+### 2. Quality Issues
+
+```typescript
+// Force specific quality
+<QuarkTVPlayer
+  videoId="video-id"
+  client={client}
+  defaultQuality="720p" // Force 720p
+  onQualityChange={(quality) => {
+    console.log('Quality changed to:', quality)
+  }}
+/>
+```
+
+### 3. Authentication Errors
+
+```typescript
+// Verify credentials
+try {
+  await client.getVideo('video-id')
+} catch (error) {
+  if (error.code === 'UNAUTHORIZED') {
+    console.error('Invalid API key or library ID')
+  }
+}
+``` 

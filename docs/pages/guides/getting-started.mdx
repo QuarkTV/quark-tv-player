@@ -1,0 +1,176 @@
+# Getting Started with QuarkTV Player
+
+Welcome to QuarkTV Player! This guide will help you get up and running with our modern React video player, designed specifically for live streaming applications.
+
+## Installation
+
+First, install the package using your preferred package manager:
+
+```bash filename="Terminal"
+# Using npm
+npm install @quarktv/quark-tv-player
+
+# Using yarn
+yarn add @quarktv/quark-tv-player
+
+# Using pnpm
+pnpm add @quarktv/quark-tv-player
+```
+
+## Requirements
+
+QuarkTV Player has the following peer dependencies:
+
+- React 18 or later
+- React DOM 18 or later
+
+## Basic Setup
+
+### 1. Import Styles
+
+First, import the required styles in your application's entry point:
+
+```tsx filename="app/layout.tsx or _app.tsx"
+import '@quarktv/quark-tv-player/dist/styles.css'
+```
+
+### 2. Initialize the Streaming Client
+
+QuarkTV Player uses a provider-based architecture. Currently, we support Bunny Stream out of the box:
+
+```tsx filename="components/VideoPlayer.tsx"
+import { BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id', // From Bunny.net dashboard
+  apiKey: 'your-api-key'        // Your API key
+})
+```
+
+### 3. Use the Player Component
+
+Now you can use the QuarkTVPlayer component in your application:
+
+```tsx filename="components/VideoPlayer.tsx"
+import { QuarkTVPlayer } from '@quarktv/quark-tv-player'
+
+export default function VideoPlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      autoPlay
+      onError={(error) => console.error('Video error:', error)}
+      onMetadataLoad={(metadata) => console.log('Video metadata:', metadata)}
+    />
+  )
+}
+```
+
+## Adding Stream Information
+
+You can enhance the player with stream information:
+
+```tsx filename="components/LiveStream.tsx"
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  streamerInfo={{
+    name: "StreamerName",
+    title: "Stream Title",
+    category: "Gaming",
+    viewers: 1234,
+    avatarUrl: "https://example.com/avatar.jpg"
+  }}
+/>
+```
+
+## Framework Integration
+
+### Next.js App Router
+
+For Next.js App Router, use the component with client-side rendering:
+
+```tsx filename="app/stream/page.tsx"
+import dynamic from 'next/dynamic'
+
+const QuarkTVPlayer = dynamic(
+  () => import('@quarktv/quark-tv-player').then(mod => mod.QuarkTVPlayer),
+  { ssr: false }
+)
+
+export default function StreamPage() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+### Next.js Pages Router
+
+For Next.js Pages Router:
+
+```tsx filename="pages/stream.tsx"
+import dynamic from 'next/dynamic'
+
+const QuarkTVPlayer = dynamic(
+  () => import('@quarktv/quark-tv-player').then(mod => mod.QuarkTVPlayer),
+  { ssr: false }
+)
+
+export default function StreamPage() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+### Vite/CRA
+
+For Vite or Create React App, you can use the component directly:
+
+```tsx filename="src/App.tsx"
+import { QuarkTVPlayer } from '@quarktv/quark-tv-player'
+
+function App() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+## Basic Customization
+
+You can customize the player's appearance using CSS variables:
+
+```css filename="styles/player.css"
+media-player {
+  /* Primary colors */
+  --media-brand: #9147ff;
+  --media-focus-ring: #9147ff;
+  
+  /* Background colors */
+  --media-background: #0e0e10;
+  
+  /* Controls */
+  --media-controls-color: #ffffff;
+  --media-controls-background: linear-gradient(to top, rgb(0 0 0 / 0.8), transparent);
+}
+```
+
+## Next Steps
+
+- Check out the [Basic Usage](/guides/basic-usage) guide for more detailed usage instructions
+- Learn about [Streaming Setup](/guides/streaming-setup) for configuring your stream
+- Explore [Customization](/guides/customization) options
+- View [Examples](/examples/basic) for common use cases
+- Read the [API Reference](/api/player) for detailed component documentation 

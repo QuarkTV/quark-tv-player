@@ -1,0 +1,383 @@
+# Basic Usage
+
+This guide covers the fundamental concepts and basic usage patterns of QuarkTV Player.
+
+## Installation
+
+First, install the package using your preferred package manager:
+
+```bash
+# Using npm
+npm install @quarktv/quark-tv-player
+
+# Using yarn
+yarn add @quarktv/quark-tv-player
+
+# Using pnpm
+pnpm add @quarktv/quark-tv-player
+```
+
+## Quick Start
+
+Here's a minimal example to get started:
+
+```tsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+// Initialize the streaming client (using Bunny Stream as an example)
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key'
+})
+
+function VideoPlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+## Basic Features
+
+### 1. Autoplay
+
+Enable automatic playback when the player loads:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  autoPlay
+  muted // Browsers require muted for autoplay
+/>
+```
+
+### 2. Controls
+
+Control the visibility and behavior of the player controls:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  controls={true} // Show controls
+  hideControls={true} // Auto-hide controls when inactive
+/>
+```
+
+### 3. Volume and Mute
+
+Set initial volume and mute state:
+
+```tsx
+function VolumeExample() {
+  const handleVolumeChange = (volume: number) => {
+    console.log(`Volume changed to ${volume}`)
+  }
+
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      muted={false}
+      onVolumeChange={handleVolumeChange}
+    />
+  )
+}
+```
+
+### 4. Aspect Ratio
+
+Customize the player's aspect ratio:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  aspectRatio="16/9" // Default aspect ratio
+/>
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  aspectRatio="21/9" // Ultrawide
+/>
+```
+
+### 5. Theme
+
+Choose between light and dark themes:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  theme="dark" // or "light"
+/>
+```
+
+## Event Handling
+
+### 1. Playback Events
+
+Monitor and respond to playback events:
+
+```tsx
+function PlayerWithEvents() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      onPlay={() => console.log('Started playing')}
+      onPause={() => console.log('Paused')}
+      onEnded={() => console.log('Playback ended')}
+      onError={(error) => console.error('Error:', error)}
+    />
+  )
+}
+```
+
+### 2. Quality Events
+
+Track quality changes and available qualities:
+
+```tsx
+function QualityAwarePlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      defaultQuality="auto"
+      onQualityChange={(quality) => {
+        console.log(`Quality changed to: ${quality}`)
+      }}
+      onMetadataLoad={(metadata) => {
+        console.log('Available qualities:', metadata.qualities)
+      }}
+    />
+  )
+}
+```
+
+## Stream Information
+
+Display information about the stream:
+
+```tsx
+function StreamWithInfo() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      streamerInfo={{
+        name: "John Doe",
+        title: "Amazing Content",
+        category: "Gaming",
+        viewers: 1000,
+        avatarUrl: "/avatar.jpg",
+        isLive: true
+      }}
+      showStreamInfo={true}
+    />
+  )
+}
+```
+
+## Basic Customization
+
+### 1. CSS Classes and Styles
+
+Apply custom styling:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  className="my-custom-player"
+  style={{
+    maxWidth: '1280px',
+    margin: '0 auto'
+  }}
+/>
+```
+
+### 2. CSS Variables
+
+Customize the player's appearance using CSS variables:
+
+```css
+.my-custom-player {
+  --media-brand: #ff0000;
+  --media-controls-color: #ffffff;
+  --media-background: #000000;
+}
+```
+
+## Framework Integration
+
+### Next.js (App Router)
+
+```tsx
+// app/components/Player.tsx
+'use client'
+
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID!,
+  apiKey: process.env.NEXT_PUBLIC_BUNNY_API_KEY!
+})
+
+export default function Player() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+### Next.js (Pages Router)
+
+```tsx
+// pages/video/[id].tsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID!,
+  apiKey: process.env.NEXT_PUBLIC_BUNNY_API_KEY!
+})
+
+export default function VideoPage({ videoId }) {
+  return (
+    <QuarkTVPlayer
+      videoId={videoId}
+      client={client}
+    />
+  )
+}
+```
+
+### React (Vite/CRA)
+
+```tsx
+// src/components/Player.tsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: import.meta.env.VITE_BUNNY_LIBRARY_ID,
+  apiKey: import.meta.env.VITE_BUNNY_API_KEY
+})
+
+export default function Player() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+    />
+  )
+}
+```
+
+## Common Patterns
+
+### 1. Responsive Player
+
+Create a responsive player that adapts to its container:
+
+```tsx
+function ResponsivePlayer() {
+  return (
+    <div className="player-wrapper">
+      <QuarkTVPlayer
+        videoId="your-video-id"
+        client={client}
+        style={{ width: '100%' }}
+      />
+    </div>
+  )
+}
+
+// CSS
+.player-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+```
+
+### 2. Error Boundary
+
+Wrap the player in an error boundary for better error handling:
+
+```tsx
+import { Component, ErrorInfo, ReactNode } from 'react'
+
+class PlayerErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Player error:', error, errorInfo)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong with the player.</div>
+    }
+
+    return this.props.children
+  }
+}
+
+function SafePlayer() {
+  return (
+    <PlayerErrorBoundary>
+      <QuarkTVPlayer
+        videoId="your-video-id"
+        client={client}
+      />
+    </PlayerErrorBoundary>
+  )
+}
+```
+
+### 3. Loading State
+
+Handle loading states gracefully:
+
+```tsx
+function PlayerWithLoading() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  return (
+    <div className="player-container">
+      {isLoading && <div className="loading-overlay">Loading...</div>}
+      <QuarkTVPlayer
+        videoId="your-video-id"
+        client={client}
+        onMetadataLoad={() => setIsLoading(false)}
+      />
+    </div>
+  )
+}
+```
+
+## Next Steps
+
+After mastering these basics, you can:
+
+1. Explore [advanced customization](/docs/guides/customization) options
+2. Learn about [streaming setup](/docs/guides/streaming-setup)
+3. Check out the complete [API reference](/docs/api/player)
+4. See [examples](/docs/examples) for more complex use cases 

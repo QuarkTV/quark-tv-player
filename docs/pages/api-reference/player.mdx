@@ -1,0 +1,231 @@
+# QuarkTVPlayer API Reference
+
+The `QuarkTVPlayer` component is the main component of the library. It provides a fully-featured video player with live streaming capabilities.
+
+## Props
+
+### Core Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `videoId` | `string` | Yes | - | The ID of the video to play from your streaming provider |
+| `client` | `StreamClient` | Yes | - | Instance of a streaming client (e.g., `BunnyStreamClient`) |
+| `autoPlay` | `boolean` | No | `false` | Whether to start playing automatically |
+| `muted` | `boolean` | No | `false` | Whether to start muted |
+| `loop` | `boolean` | No | `false` | Whether to loop the video |
+| `preload` | `'none' \| 'metadata' \| 'auto'` | No | `'metadata'` | Video preload behavior |
+
+### Stream Information
+
+```typescript
+interface StreamerInfo {
+  name: string;
+  title: string;
+  category?: string;
+  viewers?: number;
+  avatarUrl?: string;
+  isLive?: boolean;
+}
+```
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `streamerInfo` | `StreamerInfo` | No | - | Information about the stream/streamer |
+| `showStreamInfo` | `boolean` | No | `true` | Whether to show the stream information overlay |
+
+### Event Handlers
+
+```typescript
+interface VideoMetadata {
+  duration: number;
+  width: number;
+  height: number;
+  bitrate: number;
+  qualities: string[];
+}
+```
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `onPlay` | `() => void` | No | - | Called when video starts playing |
+| `onPause` | `() => void` | No | - | Called when video is paused |
+| `onEnded` | `() => void` | No | - | Called when video ends |
+| `onError` | `(error: Error) => void` | No | - | Called when an error occurs |
+| `onMetadataLoad` | `(metadata: VideoMetadata) => void` | No | - | Called when video metadata is loaded |
+| `onQualityChange` | `(quality: string) => void` | No | - | Called when video quality changes |
+| `onVolumeChange` | `(volume: number) => void` | No | - | Called when volume changes |
+| `onFullscreenChange` | `(isFullscreen: boolean) => void` | No | - | Called when fullscreen state changes |
+
+### Customization Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `className` | `string` | No | - | Additional CSS classes |
+| `style` | `React.CSSProperties` | No | - | Inline styles |
+| `theme` | `'dark' \| 'light'` | No | `'dark'` | Player theme |
+| `aspectRatio` | `string` | No | `'16/9'` | Video aspect ratio |
+| `controls` | `boolean` | No | `true` | Whether to show controls |
+| `hideControls` | `boolean` | No | `false` | Whether to auto-hide controls |
+
+### Advanced Props
+
+| Prop | Type | Required | Default | Description |
+|------|------|----------|---------|-------------|
+| `keyboardShortcuts` | `boolean` | No | `true` | Enable keyboard shortcuts |
+| `hotkeys` | `boolean` | No | `true` | Enable hotkeys (space, arrows, etc.) |
+| `pip` | `boolean` | No | `true` | Enable picture-in-picture |
+| `defaultQuality` | `string` | No | `'auto'` | Default video quality |
+| `bufferDuration` | `number` | No | `30` | Buffer duration in seconds |
+| `liveEdgeOffset` | `number` | No | `10` | Live edge offset in seconds |
+
+## Usage Examples
+
+### Basic Usage
+
+```tsx
+import { QuarkTVPlayer, BunnyStreamClient } from '@quarktv/quark-tv-player'
+
+const client = new BunnyStreamClient({
+  libraryId: 'your-library-id',
+  apiKey: 'your-api-key'
+})
+
+function VideoPlayer() {
+  return (
+    <QuarkTVPlayer
+      videoId="your-video-id"
+      client={client}
+      autoPlay
+      muted
+    />
+  )
+}
+```
+
+### With Stream Information
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  streamerInfo={{
+    name: "StreamerName",
+    title: "Amazing Stream",
+    category: "Just Chatting",
+    viewers: 1234,
+    avatarUrl: "/avatar.jpg",
+    isLive: true
+  }}
+  onMetadataLoad={(metadata) => {
+    console.log('Stream qualities:', metadata.qualities)
+  }}
+/>
+```
+
+### With Custom Styling
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  className="my-custom-player"
+  style={{ maxWidth: '1280px' }}
+  theme="dark"
+  aspectRatio="21/9"
+/>
+```
+
+### With Event Handlers
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  onPlay={() => console.log('Video started')}
+  onPause={() => console.log('Video paused')}
+  onError={(error) => console.error('Error:', error)}
+  onQualityChange={(quality) => console.log('Quality changed to:', quality)}
+  onVolumeChange={(volume) => console.log('Volume changed to:', volume)}
+  onFullscreenChange={(isFullscreen) => console.log('Fullscreen:', isFullscreen)}
+/>
+```
+
+### Advanced Configuration
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  keyboardShortcuts={true}
+  hotkeys={true}
+  pip={true}
+  defaultQuality="720p"
+  bufferDuration={60}
+  liveEdgeOffset={5}
+  onMetadataLoad={(metadata) => {
+    if (metadata.bitrate > 5000000) {
+      console.log('High quality stream detected')
+    }
+  }}
+/>
+```
+
+## CSS Variables
+
+The player can be customized using CSS variables:
+
+```css
+media-player {
+  /* Colors */
+  --media-brand: #9147ff;
+  --media-focus-ring: #9147ff;
+  --media-background: #0e0e10;
+
+  /* Controls */
+  --media-controls-color: #ffffff;
+  --media-controls-background: linear-gradient(to top, rgb(0 0 0 / 0.8), transparent);
+
+  /* Live Indicator */
+  --media-live-indicator-color: #ff0000;
+  --media-live-indicator-ring: rgba(255, 0, 0, 0.3);
+
+  /* Progress Bar */
+  --media-progress-bar-height: 4px;
+  --media-progress-buffer-color: rgba(255, 255, 255, 0.3);
+  --media-progress-played-color: var(--media-brand);
+
+  /* Volume Slider */
+  --media-volume-slider-track-color: rgba(255, 255, 255, 0.2);
+  --media-volume-slider-fill-color: #ffffff;
+
+  /* Tooltips */
+  --media-tooltip-background: rgba(0, 0, 0, 0.9);
+  --media-tooltip-text-color: #ffffff;
+}
+```
+
+## TypeScript Support
+
+The component is fully typed and exports all necessary types:
+
+```typescript
+import type { 
+  QuarkTVPlayerProps,
+  StreamerInfo,
+  VideoMetadata,
+  StreamClient,
+  PlayerEvents
+} from '@quarktv/quark-tv-player'
+```
+
+## Browser Support
+
+QuarkTV Player supports all modern browsers:
+
+- Chrome 51+
+- Firefox 52+
+- Safari 10+
+- Edge 79+
+- Opera 38+
+
+For older browsers, we recommend using a polyfill for HLS playback. 

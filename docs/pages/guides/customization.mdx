@@ -1,0 +1,288 @@
+# Customization
+
+This guide covers the various ways you can customize the QuarkTV Player to match your application's design.
+
+## Theme Options
+
+The player comes with built-in theme support:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  theme="dark" // or "light"
+/>
+```
+
+## CSS Variables
+
+Customize the player's appearance using CSS variables:
+
+### Colors
+
+```css
+.quark-player {
+  /* Brand Colors */
+  --media-brand: #9147ff;
+  --media-focus-ring: #9147ff;
+  --media-background: #0e0e10;
+
+  /* Controls */
+  --media-controls-color: #ffffff;
+  --media-controls-background: linear-gradient(to top, rgb(0 0 0 / 0.8), transparent);
+
+  /* Live Indicator */
+  --media-live-indicator-color: #ff0000;
+  --media-live-indicator-ring: rgba(255, 0, 0, 0.3);
+}
+```
+
+### Progress Bar
+
+```css
+.quark-player {
+  /* Progress Bar */
+  --media-progress-bar-height: 4px;
+  --media-progress-buffer-color: rgba(255, 255, 255, 0.3);
+  --media-progress-played-color: var(--media-brand);
+}
+```
+
+### Volume Slider
+
+```css
+.quark-player {
+  /* Volume Slider */
+  --media-volume-slider-track-color: rgba(255, 255, 255, 0.2);
+  --media-volume-slider-fill-color: #ffffff;
+}
+```
+
+### Tooltips
+
+```css
+.quark-player {
+  /* Tooltips */
+  --media-tooltip-background: rgba(0, 0, 0, 0.9);
+  --media-tooltip-text-color: #ffffff;
+}
+```
+
+## Custom Classes
+
+Add your own classes for more specific styling:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  className="my-custom-player"
+/>
+
+<style>
+  .my-custom-player {
+    /* Your custom styles */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+</style>
+```
+
+## Stream Information Styling
+
+Customize the stream information overlay:
+
+```css
+.quark-player {
+  /* Stream Info Container */
+  --media-stream-info-background: rgba(0, 0, 0, 0.8);
+  --media-stream-info-text-color: #ffffff;
+  
+  /* Streamer Avatar */
+  --media-avatar-border-color: #9147ff;
+  --media-avatar-size: 48px;
+  
+  /* Live Badge */
+  --media-live-badge-background: #ff0000;
+  --media-live-badge-text-color: #ffffff;
+}
+```
+
+## Control Icons
+
+Replace default control icons with your own:
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  icons={{
+    play: <CustomPlayIcon />,
+    pause: <CustomPauseIcon />,
+    volume: <CustomVolumeIcon />,
+    fullscreen: <CustomFullscreenIcon />
+  }}
+/>
+```
+
+## Layout Customization
+
+### Aspect Ratio
+
+```tsx
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  aspectRatio="16/9" // Default
+/>
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  aspectRatio="21/9" // Ultrawide
+/>
+```
+
+### Responsive Design
+
+Make the player responsive to its container:
+
+```tsx
+function ResponsivePlayer() {
+  return (
+    <div className="player-wrapper">
+      <QuarkTVPlayer
+        videoId="your-video-id"
+        client={client}
+        style={{ width: '100%' }}
+      />
+    </div>
+  )
+}
+
+<style>
+  .player-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  @media (max-width: 768px) {
+    .player-wrapper {
+      padding: 0 8px;
+    }
+  }
+</style>
+```
+
+## Advanced Customization
+
+### Custom Controls Layout
+
+Create a custom controls layout:
+
+```tsx
+function CustomControls() {
+  return (
+    <div className="custom-controls">
+      <PlayButton />
+      <VolumeControl />
+      <TimeDisplay />
+      <ProgressBar />
+      <QualitySelector />
+      <FullscreenButton />
+    </div>
+  )
+}
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  controls={<CustomControls />}
+/>
+```
+
+### Loading States
+
+Customize loading indicators:
+
+```tsx
+function CustomLoadingState() {
+  return (
+    <div className="loading-overlay">
+      <Spinner />
+      <p>Loading your video...</p>
+    </div>
+  )
+}
+
+<QuarkTVPlayer
+  videoId="your-video-id"
+  client={client}
+  loadingComponent={<CustomLoadingState />}
+/>
+```
+
+## Best Practices
+
+1. **Maintain Consistency**
+   - Keep your customizations consistent with your app's design language
+   - Use the same color palette and typography
+
+2. **Accessibility**
+   - Ensure sufficient color contrast
+   - Maintain readable text sizes
+   - Keep interactive elements large enough for touch targets
+
+3. **Performance**
+   - Use CSS variables for dynamic theming
+   - Avoid heavy CSS animations
+   - Optimize custom icons and images
+
+4. **Responsive Design**
+   - Test your customizations across different screen sizes
+   - Use relative units (rem, em) instead of fixed pixels
+   - Implement mobile-friendly touch targets
+
+## Examples
+
+### Dark Theme with Custom Branding
+
+```css
+.branded-player {
+  --media-brand: #ff4d4d;
+  --media-background: #1a1a1a;
+  --media-controls-color: #ffffff;
+  --media-progress-played-color: #ff4d4d;
+  --media-volume-slider-fill-color: #ff4d4d;
+}
+```
+
+### Modern Minimal Theme
+
+```css
+.minimal-player {
+  --media-controls-background: transparent;
+  --media-progress-bar-height: 2px;
+  --media-volume-slider-track-color: rgba(0, 0, 0, 0.1);
+  --media-tooltip-background: #ffffff;
+  --media-tooltip-text-color: #000000;
+  box-shadow: none;
+  border-radius: 0;
+}
+```
+
+### Gaming Theme
+
+```css
+.gaming-player {
+  --media-brand: #00ff00;
+  --media-background: #000000;
+  --media-controls-background: linear-gradient(to top, rgba(0, 255, 0, 0.1), transparent);
+  --media-progress-played-color: #00ff00;
+  --media-live-indicator-color: #00ff00;
+  border: 1px solid #00ff00;
+  border-radius: 4px;
+}
+``` 
