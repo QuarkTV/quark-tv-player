@@ -3,6 +3,13 @@ title: QuarkTV Player - Modern React Video Player
 ---
 
 import { Cards, Card } from '../components'
+import { useRouter } from 'next/router'
+
+export const DynamicLink = ({ href, ...props }) => {
+  const router = useRouter()
+  const basePath = router.basePath || ''
+  return <a href={`${basePath}${href}`} {...props} />
+}
 
 <div className="flex flex-col items-center justify-center py-10">
   <div className="w-48 mb-8">
@@ -21,12 +28,12 @@ import { Cards, Card } from '../components'
       Optimized for live streaming, built on top of VidStack with a Twitch-like design.
     </p>
     <div className="flex justify-center gap-4">
-      <a
+      <DynamicLink
         href="/docs" 
         className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
       >
         Get Started
-      </a>
+      </DynamicLink>
       <a
         href="https://github.com/quarktv/quark-tv-player" 
         target="_blank"
@@ -170,12 +177,12 @@ export default function App() {
 <div className="text-center mt-16">
   <h2 className="text-3xl font-bold mb-8">Ready to Start?</h2>
   <div className="flex gap-4 justify-center">
-    <a
+    <DynamicLink
       href="/docs/getting-started"
       className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
     >
       Get Started →
-    </a>
+    </DynamicLink>
     <a
       href="https://github.com/quarktv/quark-tv-player"
       className="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:border-gray-400 dark:hover:border-gray-600 transition-colors"
